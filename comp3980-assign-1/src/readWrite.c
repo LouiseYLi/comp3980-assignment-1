@@ -2,6 +2,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 enum
@@ -22,7 +23,14 @@ int readFd(int fdRead)
     return 0;
 }
 
-int writeFd() {
+int writeFd(int fdWrite, const char *data)
+{
+    ssize_t bytes_written = write(fdWrite, data, strlen(data));
+    if(bytes_written == -1)
+    {
+        return -1;
+    }
+    printf("Written: %s\n", data);
 
     return 0;
 }

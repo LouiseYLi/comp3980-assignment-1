@@ -477,5 +477,6 @@ supported_cxx_compilers.txt
 
 CMakeLists.txt
 input.txt
+output.txt
 
 build/

@@ -6,6 +6,6 @@ char upper(char c);
 char lower(char c);
 char null(char c);
 
-// int checkFilterArgs(const char *msg);
+char checkFilterArgs(const char *arg);
 
 #endif    // PROGRAMMING101_FILTER_H

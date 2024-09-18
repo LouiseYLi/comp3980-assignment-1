@@ -12,42 +12,18 @@
 int main(int argc, char *argv[])
 {
     const int TOTAL_ARGUMENTS = 7;
-    int       option;
+    // int       i               = 0;
+    int option;
     // filterChar filter = null;
-    int fdRead  = -1;
-    int fdWrite = -1;
+    int  fdRead  = -1;
+    int  fdWrite = -1;
+    char currentChar;
     if(argc != TOTAL_ARGUMENTS)
     {
         perror("Error: Invalid number of arguments.");
         return EXIT_FAILURE;
     }
-    // char string[TEMP];
-    // strcpy(string, "MELL");
 
-    // const long unsigned int TEMP_BYTES = 10;
-
-    // fd = open(optarg, O_RDONLY);
-    //     if(fd == -1)
-    // {
-    //     display("Error: unable to open file.");
-    //     exit(EXIT_FAILURE);
-    // }
-    // int filter;
-    // char *inputFile;
-    // char *outputFile;
-    // inputFile = (char *)malloc(TEMP_BYTES * sizeof(char));
-    // if(inputFile == NULL)
-    // {
-    //     display("Error: memory allocation failed for inputFile.");
-    //     return EXIT_FAILURE;
-    // }
-    // outputFile = (char *)malloc(TEMP_BYTES * sizeof(char));
-    // if(outputFile == NULL)
-    // {
-    //     display("Error: memory allocation failed for outputFile.");
-    //     free(inputFile);
-    //     return EXIT_FAILURE;
-    // }
     while((option = getopt(argc, argv, "i:o:f:")) != -1)
     {
         switch(option)
@@ -86,10 +62,13 @@ int main(int argc, char *argv[])
         }
     }
     // while until eof
-    // while()
-    readFd(fdRead);
+    while((currentChar = readFd(fdRead)) != EOF)
+    {
+        writeFd(fdWrite, currentChar);
+    }
+    // readFd(fdRead);
 
-    writeFd(fdWrite, 'a');
+    // writeFd(fdWrite, 'a');
     // loop to check argc
     // for(int i = 0; i < argc; i++)
     // {
@@ -112,3 +91,31 @@ int main(int argc, char *argv[])
     // free(outputFile);
     return EXIT_SUCCESS;
 }
+
+// char string[TEMP];
+// strcpy(string, "MELL");
+
+// const long unsigned int TEMP_BYTES = 10;
+
+// fd = open(optarg, O_RDONLY);
+//     if(fd == -1)
+// {
+//     display("Error: unable to open file.");
+//     exit(EXIT_FAILURE);
+// }
+// int filter;
+// char *inputFile;
+// char *outputFile;
+// inputFile = (char *)malloc(TEMP_BYTES * sizeof(char));
+// if(inputFile == NULL)
+// {
+//     display("Error: memory allocation failed for inputFile.");
+//     return EXIT_FAILURE;
+// }
+// outputFile = (char *)malloc(TEMP_BYTES * sizeof(char));
+// if(outputFile == NULL)
+// {
+//     display("Error: memory allocation failed for outputFile.");
+//     free(inputFile);
+//     return EXIT_FAILURE;
+// }

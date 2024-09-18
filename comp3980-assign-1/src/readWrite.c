@@ -10,10 +10,10 @@ char readFd(int fdRead)
 {
     char    c;
     ssize_t bytes_read = read(fdRead, &c, 1);
-    if(bytes_read == -1)
+    if(bytes_read == -1 || bytes_read == 0)
     {
-        perror("Error: could not read file.");
-        return EXIT_FAILURE;
+        // perror("Error: could not read file.");
+        return EOF;
     }
     // c[bytes_read] = '\0';
     printf("Read: %c\n", c);

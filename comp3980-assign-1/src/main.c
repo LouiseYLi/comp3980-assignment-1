@@ -7,20 +7,25 @@
 #include <string.h>
 #include <unistd.h>
 
-enum
-{
-    TEMP = 6
-};
+// typedef char (*filterChar)(char);
 
 int main(int argc, char *argv[])
 {
+    const int TOTAL_ARGUMENTS = 7;
+    int       option;
+    // filterChar filter = null;
+    int fdRead  = -1;
+    int fdWrite = -1;
+    if(argc != TOTAL_ARGUMENTS)
+    {
+        perror("Error: Invalid number of arguments.");
+        return EXIT_FAILURE;
+    }
     // char string[TEMP];
     // strcpy(string, "MELL");
 
     // const long unsigned int TEMP_BYTES = 10;
-    int option;
-    int fdRead  = -1;
-    int fdWrite = -1;
+
     // fd = open(optarg, O_RDONLY);
     //     if(fd == -1)
     // {
@@ -52,7 +57,7 @@ int main(int argc, char *argv[])
                 fdRead = open(optarg, O_CREAT | O_RDONLY | O_CLOEXEC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
                 if(fdRead == -1)
                 {
-                    display("Error: unable to open input file.");
+                    perror("Error: unable to open input file.");
                     return EXIT_FAILURE;
                 }
                 break;
@@ -61,26 +66,27 @@ int main(int argc, char *argv[])
                 fdWrite = open(optarg, O_CREAT | O_WRONLY | O_CLOEXEC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
                 if(fdWrite == -1)
                 {
-                    display("Error: unable to open output file.");
+                    perror("Error: unable to open output file.");
                     close(fdRead);
                     return EXIT_FAILURE;
                 }
                 break;
             case 'f':
                 display(optarg);
+
                 break;
             default:
-                display("Error: invalid option(s) entered to command line.");
+                perror("Error: invalid option(s) entered to command line.");
                 if(close(fdRead) == -1 || close(fdWrite) == -1)
                 {
-                    display("Error: error closing file descriptor.");
+                    perror("Error: error closing file descriptor.");
                     return EXIT_FAILURE;
                 }
                 return EXIT_FAILURE;
         }
     }
     // while until eof
-    //  read
+    // while()
     readFd(fdRead);
 
     writeFd(fdWrite, 'a');

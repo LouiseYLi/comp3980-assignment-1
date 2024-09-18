@@ -8,16 +8,16 @@
 
 char readFd(int fdRead)
 {
-    char    buffer;
-    ssize_t bytes_read = read(fdRead, &buffer, sizeof(buffer) - 1);
+    char    c;
+    ssize_t bytes_read = read(fdRead, &c, 1);
     if(bytes_read == -1)
     {
         perror("Error: could not read file.");
         return EXIT_FAILURE;
     }
-    // buffer[bytes_read] = '\0';
-    printf("Read: %c\n", buffer);
-    return buffer;
+    // c[bytes_read] = '\0';
+    printf("Read: %c\n", c);
+    return c;
 }
 
 int writeFd(int fdWrite, const char c)
@@ -25,7 +25,8 @@ int writeFd(int fdWrite, const char c)
     ssize_t bytes_written = write(fdWrite, &c, 1);
     if(bytes_written == -1)
     {
-        return -1;
+        perror("Error: could not read file.");
+        return EXIT_FAILURE;
     }
     printf("Written: %c\n", c);
 

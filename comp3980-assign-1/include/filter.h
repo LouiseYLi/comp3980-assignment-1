@@ -1,11 +1,12 @@
 #ifndef PROGRAMMING101_FILTER_H
 #define PROGRAMMING101_FILTER_H
 
-void filter(const char *msg);
-char upper(char c);
-char lower(char c);
-char null(char c);
+typedef char (*filterChar)(char);
 
-char checkFilterArgs(const char *arg);
+void       filter(const char *msg);
+char       upper(char c);
+char       lower(char c);
+char       null(char c);
+filterChar checkFilterArgs(const char *arg);
 
-#endif    // PROGRAMMING101_FILTER_H
+#endif

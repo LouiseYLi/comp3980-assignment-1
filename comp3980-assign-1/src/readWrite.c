@@ -1,23 +1,26 @@
 #include "../include/readWrite.h"
-#include "../include/display.h"
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
-char readFd(int fdRead)
+typedef char (*filterChar)(char);
+
+char readFd(int fdRead, filterChar filterFunction)
 {
     char    c;
     ssize_t bytes_read = read(fdRead, &c, 1);
-    if(bytes_read == -1 || bytes_read == 0)
+    if(bytes_read == -1)
     {
-        // perror("Error: could not read file.");
+        perror("Error: could not read file.");
         return EOF;
     }
-    // c[bytes_read] = '\0';
-    printf("Read: %c\n", c);
-    return c;
+    if(bytes_read == 0)
+    {
+        return EOF;
+    }
+    return filterFunction(c);
 }
 
 int writeFd(int fdWrite, const char c)
@@ -28,7 +31,5 @@ int writeFd(int fdWrite, const char c)
         perror("Error: could not read file.");
         return EXIT_FAILURE;
     }
-    printf("Written: %c\n", c);
-
     return 0;
 }

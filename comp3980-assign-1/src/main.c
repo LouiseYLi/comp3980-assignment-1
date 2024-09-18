@@ -7,29 +7,26 @@
 #include <string.h>
 #include <unistd.h>
 
-// typedef char (*filterChar)(char);
+typedef char (*filterChar)(char);
 
 int main(int argc, char *argv[])
 {
-    const int TOTAL_ARGUMENTS = 7;
-    // int       i               = 0;
-    int option;
-    // filterChar filter = null;
-    int  fdRead  = -1;
-    int  fdWrite = -1;
-    char currentChar;
+    const int  TOTAL_ARGUMENTS = 7;
+    int        fdRead          = -1;
+    int        fdWrite         = -1;
+    filterChar filterFunction  = null;
+    char       currentChar;
+    int        option;
     if(argc != TOTAL_ARGUMENTS)
     {
         perror("Error: Invalid number of arguments.");
         return EXIT_FAILURE;
     }
-
     while((option = getopt(argc, argv, "i:o:f:")) != -1)
     {
         switch(option)
         {
             case 'i':
-                display(optarg);
                 fdRead = open(optarg, O_CREAT | O_RDONLY | O_CLOEXEC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
                 if(fdRead == -1)
                 {
@@ -38,8 +35,7 @@ int main(int argc, char *argv[])
                 }
                 break;
             case 'o':
-                display(optarg);
-                fdWrite = open(optarg, O_CREAT | O_WRONLY | O_CLOEXEC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+                fdWrite = open(optarg, O_CREAT | O_WRONLY | O_TRUNC | O_CLOEXEC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
                 if(fdWrite == -1)
                 {
                     perror("Error: unable to open output file.");
@@ -48,8 +44,7 @@ int main(int argc, char *argv[])
                 }
                 break;
             case 'f':
-                display(optarg);
-
+                filterFunction = checkFilterArgs(optarg);
                 break;
             default:
                 perror("Error: invalid option(s) entered to command line.");
@@ -61,34 +56,17 @@ int main(int argc, char *argv[])
                 return EXIT_FAILURE;
         }
     }
-    // while until eof
-    while((currentChar = readFd(fdRead)) != EOF)
+    // while get eachchar until eof, we transform and write
+    while((currentChar = readFd(fdRead, filterFunction)) != EOF)
     {
         writeFd(fdWrite, currentChar);
     }
-    // readFd(fdRead);
 
-    // writeFd(fdWrite, 'a');
-    // loop to check argc
-    // for(int i = 0; i < argc; i++)
-    // {
-    //     display(argv[i]);
-    //     displayInt(i);
-    //     display("end of loop");
-    // }
-    // if(close(fd) == -1)
-    // {
-    //     display("Closed file descriptor.");
-    //     return EXIT_SUCCESS;
-    // }
-    // if(close(fdRead) == -1)
-    // {
-    //     display("Error: error closing file descriptor.");
-    //     return EXIT_FAILURE;
-    // }
-    filter("Cool cats 111");
-    // free(inputFile);
-    // free(outputFile);
+    if(close(fdRead) == -1 || close(fdWrite) == -1)
+    {
+        perror("Error: error closing file descriptor.");
+        return EXIT_FAILURE;
+    }
     return EXIT_SUCCESS;
 }
 
@@ -118,4 +96,25 @@ int main(int argc, char *argv[])
 //     display("Error: memory allocation failed for outputFile.");
 //     free(inputFile);
 //     return EXIT_FAILURE;
+// }
+// switch to assign filter function
+// switch(filterType)
+// {
+//     case 'u':
+//         filterFunction = upper;
+//         break;
+//     case 'l':
+//         filterFunction = lower;
+//         break;
+//     case 'n':
+//         filterFunction = null;
+//         break;
+//     default:
+//         perror("Error: invalid filterType entered to command line.");
+//         if(close(fdRead) == -1 || close(fdWrite) == -1)
+//         {
+//             perror("Error: error closing file descriptor.");
+//             return EXIT_FAILURE;
+//         }
+//         return EXIT_FAILURE;
 // }

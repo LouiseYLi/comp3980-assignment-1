@@ -1,13 +1,9 @@
 #include "../include/filter.h"
-#include "../include/display.h"
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
 
-// enum
-// {
-//     MAX_LENGTH = 5
-// };
+typedef char (*filterChar)(char);
 
 void filter(const char *msg)
 {
@@ -21,7 +17,7 @@ char upper(char c)
 
 char lower(char c)
 {
-    return (char)toupper((unsigned char)c);
+    return (char)tolower((unsigned char)c);
 }
 
 char null(char c)
@@ -29,26 +25,26 @@ char null(char c)
     return c;
 }
 
-// returns 0 if invalid argument, otherwise will return u | l | n
-char checkFilterArgs(const char *arg)
+filterChar checkFilterArgs(const char *arg)
 {
-    char result = '0';
+    // char result = '0';
+    filterChar filterFunction = null;
     if(arg == NULL)
     {
         perror("Error: argument is null.");
-        return result;
+        return filterFunction;
     }
     if(strcmp(arg, "upper") == 0)
     {
-        result = 'u';
+        filterFunction = upper;
     }
     else if(strcmp(arg, "lower") == 0)
     {
-        result = 'l';
+        filterFunction = lower;
     }
     else if(strcmp(arg, "null") == 0)
     {
-        result = 'n';
+        filterFunction = null;
     }
-    return result;
+    return filterFunction;
 }

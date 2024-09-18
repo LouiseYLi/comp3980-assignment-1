@@ -1,8 +1,8 @@
 #ifndef PROGRAMMING101_READWRITE_H
 #define PROGRAMMING101_READWRITE_H
 
-int readFd(int fdRead);
+char readFd(int fdRead);
 
-int writeFd(int fdWrite, const char *data);
+int writeFd(int fdWrite, char c);
 
 #endif    // PROGRAMMING101_READWRITE_H

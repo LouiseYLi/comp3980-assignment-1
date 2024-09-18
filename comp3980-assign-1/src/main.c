@@ -14,7 +14,9 @@ enum
 
 int main(int argc, char *argv[])
 {
-    char string[TEMP];    // 5 characters + 1 for null terminator
+    // char string[TEMP];
+    // strcpy(string, "MELL");
+
     // const long unsigned int TEMP_BYTES = 10;
     int option;
     int fdRead  = -1;
@@ -41,13 +43,12 @@ int main(int argc, char *argv[])
     //     free(inputFile);
     //     return EXIT_FAILURE;
     // }
-
     while((option = getopt(argc, argv, "i:o:f:")) != -1)
     {
         switch(option)
         {
             case 'i':
-                display("Option -i");
+                display(optarg);
                 fdRead = open(optarg, O_CREAT | O_RDONLY | O_CLOEXEC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
                 if(fdRead == -1)
                 {
@@ -56,7 +57,6 @@ int main(int argc, char *argv[])
                 }
                 break;
             case 'o':
-                display("Option -o");
                 display(optarg);
                 fdWrite = open(optarg, O_CREAT | O_WRONLY | O_CLOEXEC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
                 if(fdWrite == -1)
@@ -67,26 +67,23 @@ int main(int argc, char *argv[])
                 }
                 break;
             case 'f':
-                display("Option -f");
+                display(optarg);
                 break;
             default:
                 display("Error: invalid option(s) entered to command line.");
-                close(fdRead);
-                close(fdWrite);
-                // free(inputFile);
-                // free(outputFile);
-                // if(close(fdRead) == -1)
-                // {
-                //     display("Error: error closing file descriptor.");
-                //     return EXIT_FAILURE;
-                // }
+                if(close(fdRead) == -1 || close(fdWrite) == -1)
+                {
+                    display("Error: error closing file descriptor.");
+                    return EXIT_FAILURE;
+                }
                 return EXIT_FAILURE;
         }
     }
+    // while until eof
+    //  read
     readFd(fdRead);
 
-    strcpy(string, "MELL");
-    writeFd(fdWrite, string);
+    writeFd(fdWrite, 'a');
     // loop to check argc
     // for(int i = 0; i < argc; i++)
     // {

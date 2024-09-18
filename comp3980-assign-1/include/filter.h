@@ -3,4 +3,6 @@
 
 void filter(const char *msg);
 
+// int checkFilterArgs(const char *msg);
+
 #endif    // PROGRAMMING101_FILTER_H

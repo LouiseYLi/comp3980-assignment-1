@@ -5,11 +5,6 @@
 
 typedef char (*filterChar)(char);
 
-void filter(const char *msg)
-{
-    printf("%s\n", msg);
-}
-
 char upper(char c)
 {
     return (char)toupper((unsigned char)c);    // ensures no negative vals avoids errors

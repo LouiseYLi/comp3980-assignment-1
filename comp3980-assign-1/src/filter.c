@@ -27,8 +27,7 @@ char null(char c)
 
 filterChar checkFilterArgs(const char *arg)
 {
-    // char result = '0';
-    filterChar filterFunction = null;
+    filterChar filterFunction = NULL;
     if(arg == NULL)
     {
         perror("Error: argument is null.");

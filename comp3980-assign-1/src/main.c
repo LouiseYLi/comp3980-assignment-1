@@ -56,6 +56,11 @@ int main(int argc, char *argv[])
                 return EXIT_FAILURE;
         }
     }
+    if(filterFunction == NULL)
+    {
+        perror("Error: invalid filter type.");
+        return EXIT_FAILURE;
+    }
     // while get eachchar until eof, we transform and write
     while((currentChar = readFd(fdRead, filterFunction)) != EOF)
     {
@@ -69,52 +74,3 @@ int main(int argc, char *argv[])
     }
     return EXIT_SUCCESS;
 }
-
-// char string[TEMP];
-// strcpy(string, "MELL");
-
-// const long unsigned int TEMP_BYTES = 10;
-
-// fd = open(optarg, O_RDONLY);
-//     if(fd == -1)
-// {
-//     display("Error: unable to open file.");
-//     exit(EXIT_FAILURE);
-// }
-// int filter;
-// char *inputFile;
-// char *outputFile;
-// inputFile = (char *)malloc(TEMP_BYTES * sizeof(char));
-// if(inputFile == NULL)
-// {
-//     display("Error: memory allocation failed for inputFile.");
-//     return EXIT_FAILURE;
-// }
-// outputFile = (char *)malloc(TEMP_BYTES * sizeof(char));
-// if(outputFile == NULL)
-// {
-//     display("Error: memory allocation failed for outputFile.");
-//     free(inputFile);
-//     return EXIT_FAILURE;
-// }
-// switch to assign filter function
-// switch(filterType)
-// {
-//     case 'u':
-//         filterFunction = upper;
-//         break;
-//     case 'l':
-//         filterFunction = lower;
-//         break;
-//     case 'n':
-//         filterFunction = null;
-//         break;
-//     default:
-//         perror("Error: invalid filterType entered to command line.");
-//         if(close(fdRead) == -1 || close(fdWrite) == -1)
-//         {
-//             perror("Error: error closing file descriptor.");
-//             return EXIT_FAILURE;
-//         }
-//         return EXIT_FAILURE;
-// }

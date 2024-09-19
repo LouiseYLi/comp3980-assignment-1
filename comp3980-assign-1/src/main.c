@@ -64,7 +64,11 @@ int main(int argc, char *argv[])
     // while get eachchar until eof, we transform and write
     while((currentChar = readFd(fdRead, filterFunction)) != EOF)
     {
-        writeFd(fdWrite, currentChar);
+        if(writeFd(fdWrite, currentChar) == -1)
+        {
+            perror("Error: error writing to file.");
+            return EXIT_FAILURE;
+        }
     }
 
     if(close(fdRead) == -1 || close(fdWrite) == -1)

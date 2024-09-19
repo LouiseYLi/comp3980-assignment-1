@@ -31,5 +31,5 @@ int writeFd(int fdWrite, const char c)
         perror("Error: could not read file.");
         return EXIT_FAILURE;
     }
-    return 0;
+    return EXIT_SUCCESS;
 }
